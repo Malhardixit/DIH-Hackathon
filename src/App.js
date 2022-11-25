@@ -20,6 +20,7 @@ import { formatRelative } from "date-fns";
 
 import "@reach/combobox/styles.css";
 import mapStyles from "./mapStyles";
+import { findByAltText, getDefaultNormalizer } from "@testing-library/react";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -38,9 +39,9 @@ const center = {
 
 export default function App() {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
+      googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+      libraries,
+  }); 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
@@ -72,8 +73,12 @@ export default function App() {
   return (
     <div>
       <h1 style={{ display: "flex", alignItems: "center", color: "white" }}>
+        <img
+          className="logoImg"
+          alt="logoImg"
+          src={require("./assets/images/Logo.png")}
+        />
         Pulsars
-        <img className="logoImg" src={require("./assets/images/Logo.png")} />
       </h1>
 
       <Locate panTo={panTo} />
@@ -177,7 +182,7 @@ function Search({ panTo }) {
       const { lat, lng } = await getLatLng(results[0]);
       panTo({ lat, lng });
     } catch (error) {
-      console.log("😱 Error: ", error);
+      console.log("Error: ", error);
     }
   };
 
